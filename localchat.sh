@@ -74,7 +74,7 @@ function send_message {
     payload="$*"
     # Transmit message ONLY if input is not empty
     if [ $1 ]; then
-        if [ "$mode"="SERVER" ]; then
+        if [ "$mode" = "SERVER" ]; then
             printf "\nServer: %s \nMe: " "${payload}";
         else # client mode
             printf "\nClient: %s \nMe: " "${payload}";
@@ -111,7 +111,7 @@ function init {
         shift # past argument
         shift # past value
         ;;
-        --server-mode)
+        -s|--server-mode)
         mode="SERVER"
         shift # past argument
         ;;
