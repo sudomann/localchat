@@ -22,8 +22,8 @@ function print_help_text() {
 
 function validate_interface() {
     iface_array=$(get_available_interfaces)
-    containsElement "$1" "${iface_array[@]}"
-    if [[ $? != 0 ]]; then
+
+    if ! containsElement "$1" "${iface_array[@]}"; then
         echo "Error: Invalid interface"
         echo "Avalaible interfaces: ${iface_array[@]}"
         exit
@@ -33,16 +33,15 @@ function validate_interface() {
 }
 
 containsElement() {
-    local e match="$1"
-    shift
-    for e; do [[ "$e" == "$match" ]] && return 0; done
+    if [[ $2 =~ $1 ]]; then
+        return 0
+    fi
     return 1
 }
 
 function get_available_interfaces() {
     array=()
     for iface in $(ifconfig | cut -d ' ' -f1 | tr ':' '\n' | awk NF); do
-        #printf "$iface\n"
         array+=("$iface")
     done
     echo ${array[@]}
